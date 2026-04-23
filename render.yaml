@@ -2,7 +2,6 @@ services:
   - type: web
     name: trekking-site
     runtime: static
-    plan: free
     buildCommand: "true"
     staticPublishPath: .
     routes:
