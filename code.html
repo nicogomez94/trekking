@@ -199,12 +199,12 @@
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <!-- TopAppBar -->
-<header class="bg-white/80 backdrop-blur-md border-b border-gray-200 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-6 h-16">
+<header class="bg-white/80 backdrop-blur-md border-b border-gray-200 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-4 md:px-6 h-16">
 <div class="flex items-center gap-4">
 <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
 <img alt="Karspen Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugaanIGlyp7Uy8ItJK8reYroNmSFMLAXSxAew7lHoLezfB9qaP_irAE5dFG_ZuyakF3ntTcrOkYrugRuaE5Y1kzgLt33uqRy376UoQI-AlKNJYZcC2porDSXJwF5_SuM2m1tgEbRsNlhijVi4fpxVjjNbPTRBsPMA7buCOWmRK1E_YLClcLpFp6z15Alu6VJ3Q1XSnhwbzGMeo0bB_uVbpaOt21-Cl81ssNlTMAtqP2q9x1oAcevMqNOu0xxicBRKs3wedFz45rUw"/>
 </div>
-<h1 class="text-xl font-bold tracking-tight text-gray-900 font-['Epilogue']">Karspen Expediciones</h1>
+<h1 class="text-base md:text-xl font-bold tracking-tight text-gray-900 font-['Epilogue'] leading-tight"><span class="md:hidden">Karspen</span><span class="hidden md:inline">Karspen Expediciones</span></h1>
 </div>
 <nav class="hidden md:flex items-center gap-8">
 <a class="text-instagram-blue font-bold font-['Epilogue'] tracking-tight" href="#">Expediciones</a>
@@ -221,17 +221,17 @@
 </header>
 <main class="pt-16">
 <!-- Hero Section -->
-<section class="relative h-[80vh] min-h-[600px] flex items-center justify-start overflow-hidden">
+<section class="relative h-[85vh] min-h-[500px] flex items-end md:items-center justify-start overflow-hidden pb-12 md:pb-0">
 <img class="absolute inset-0 w-full h-full object-cover" data-alt="dramatic wide shot of the Cordoba mountains in Argentina during blue hour with low lying mist and jagged peaks" src="https://jackery.com.ar/wp-content/uploads/2025/09/pexels-andrius-la-rotta-774923652-20637275-scaled.jpg"/>
 <div class="absolute inset-0 bg-black/30"></div>
 <div class="relative z-10 max-w-7xl mx-auto px-margin w-full editorial-grid">
 <div class="col-span-12 md:col-span-8 lg:col-span-7">
-<span class="reveal reveal-delay-1 font-label-caps text-label-caps text-white mb-4 block drop-shadow-md">KARSPEN EXPEDICIONES | CÓRDOBA</span>
-<h2 class="reveal reveal-delay-2 font-display-lg text-display-lg text-white mb-8 drop-shadow-lg leading-tight">TREKKING Y MONTAÑISMO EN CÓRDOBA.</h2>
-<p class="reveal reveal-delay-3 font-body-lg text-body-lg text-white max-w-xl mb-10 drop-shadow-md font-medium">Descubrí lo salvaje de las Sierras. Guías profesionales habilitados por la provincia para llevarte a lo más alto de Argentina Central.</p>
-<div class="reveal reveal-delay-4 flex gap-4">
-<button class="pulse-cta px-8 py-3.5 bg-instagram-blue text-white font-semibold rounded-lg transition-transform active:scale-95 shadow-lg">RESERVAR AHORA</button>
-<button class="px-8 py-3.5 bg-white/20 backdrop-blur-md border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-colors shadow-lg">MENSAJE</button>
+<span class="reveal reveal-delay-1 font-label-caps text-[10px] md:text-label-caps text-white mb-3 block drop-shadow-md tracking-widest">KARSPEN EXPEDICIONES | CÓRDOBA</span>
+<h2 class="reveal reveal-delay-2 font-['Epilogue'] text-[42px] md:text-[64px] lg:text-[72px] font-black text-white mb-6 drop-shadow-lg leading-[1.05]">TREKKING Y MONTAÑISMO EN CÓRDOBA.</h2>
+<p class="reveal reveal-delay-3 font-body-lg text-sm md:text-body-lg text-white max-w-xl mb-8 drop-shadow-md font-medium">Descubrí lo salvaje de las Sierras. Guías profesionales habilitados por la provincia para llevarte a lo más alto de Argentina Central.</p>
+<div class="reveal reveal-delay-4 flex flex-wrap gap-3">
+<button class="pulse-cta px-6 py-3 bg-[#0095F6] text-white text-sm md:text-base font-semibold rounded-lg transition-transform active:scale-95 shadow-lg">RESERVAR AHORA</button>
+<button class="px-6 py-3 bg-white/20 backdrop-blur-md border border-white/30 text-white text-sm md:text-base font-semibold rounded-lg hover:bg-white/30 transition-colors shadow-lg">MENSAJE</button>
 </div>
 </div>
 </div>
@@ -246,7 +246,7 @@
 </div>
 <div class="col-span-12 lg:col-span-6 lg:col-start-7 order-1 lg:order-2 space-y-8">
 <h3 class="reveal font-headline-lg text-headline-lg text-gray-900 uppercase tracking-tighter">EL ALMA DE LAS SIERRAS</h3>
-<div class="reveal reveal-delay-1 w-16 h-1 bg-instagram-blue"></div>
+<div class="reveal reveal-delay-1 w-16 h-1 bg-[#0095F6]"></div>
 <p class="reveal reveal-delay-2 font-body-lg text-body-lg text-gray-600 leading-relaxed">
                         En el corazón de Argentina existe un paisaje de granito milenario. Las Sierras de Córdoba no son solo montañas; son un santuario para los valientes. Nuestros guías habilitados conocen cada rincón, valles secretos y mesetas de altura que permanecen intocables.
                     </p>
@@ -255,11 +255,11 @@
                     </p>
 <div class="grid grid-cols-2 gap-8 pt-4">
 <div class="reveal reveal-delay-4">
-<div class="text-4xl font-bold text-instagram-blue mb-2 stat-pop">2.790</div>
+<div class="text-4xl font-bold text-[#0095F6] mb-2 stat-pop">2.790</div>
 <div class="font-label-caps text-label-caps text-gray-400">ALTURA MÁXIMA (M)</div>
 </div>
 <div class="reveal reveal-delay-5">
-<div class="text-4xl font-bold text-instagram-blue mb-2 stat-pop">100%</div>
+<div class="text-4xl font-bold text-[#0095F6] mb-2 stat-pop">100%</div>
 <div class="font-label-caps text-label-caps text-gray-400">GUÍAS HABILITADOS</div>
 </div>
 </div>
@@ -302,7 +302,7 @@
 <div class="reveal reveal--scale reveal-delay-2 card-lift group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
 <div class="relative h-64 overflow-hidden">
 <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="jagged mountain peaks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1eoyjGHkXa6xKA87ViicKeHmn4kF5aql96E1nNqR-2AkxCLEh9wMvqDrfBXMReAdO5d_jT-GpziTyDBzELeoA5eRjdoUiCiazUc5uSYXzGA3e39nP6mVu5pSMunIG0K6mDdk_eX-IEGsYNbfyCaOyhyfUvBacY-PEJv4iJcIdT8DeK3rOLPw_mjkYv2l6kjr_nylyXGi-T09dTG_iWATAyNnIBOBF0F6VCoUc13DrhuQoRckKh_Kg_XkmG4P9XW7iRNp9Ow8wl-o"/>
-<div class="absolute top-4 left-4 bg-instagram-blue px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase rounded">MODERADO</div>
+<div class="absolute top-4 left-4 bg-[#0095F6] px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase rounded">MODERADO</div>
 </div>
 <div class="p-6">
 <div class="flex justify-between items-center mb-2">
