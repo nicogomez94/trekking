@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&amp;family=Space+Grotesk:wght@600&amp;family=Work+Sans:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fafafa;
+            color: #262626;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .instagram-blue {
+            background-color: #0095F6;
+        }
+        .text-instagram-blue {
+            color: #0095F6;
+        }
+        /* ── Animated background canvas ── */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+        header, nav.md\:hidden, button.hidden {
+            z-index: 50 !important;
+        }
+
+        /* ── Scroll-reveal animations ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal.reveal--left {
+            transform: translateX(-50px);
+        }
+        .reveal.reveal--right {
+            transform: translateX(50px);
+        }
+        .reveal.reveal--scale {
+            transform: scale(0.92) translateY(20px);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        /* ── Card hover lift ── */
+        .card-lift {
+            transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease;
+        }
+        .card-lift:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,149,246,0.15);
+        }
+
+        /* ── Header glassmorphism upgrade ── */
+        header {
+            background: rgba(255,255,255,0.82) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        /* ── Section divider gradient ── */
+        .section-gradient-top {
+            background: linear-gradient(to bottom, #f0f9ff 0%, #ffffff 100%);
+        }
+        .section-gradient-alt {
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 50%, #f8fafc 100%);
+        }
+
+        /* ── Pulse ring on CTA ── */
+        @keyframes pulse-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(0,149,246,0.4); }
+            70%  { box-shadow: 0 0 0 14px rgba(0,149,246,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,149,246,0); }
+        }
+        .pulse-cta { animation: pulse-ring 2.5s ease-out infinite; }
+
+        /* ── Stat counter pop ── */
+        @keyframes stat-pop {
+            0%   { transform: scale(0.6); opacity: 0; }
+            60%  { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .stat-pop { animation: stat-pop 0.6s cubic-bezier(.22,1,.36,1) both; }    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#ffffff",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#1eaaee",
+                        "background": "#fafafa",
+                        "surface-container-highest": "#f0f0f0",
+                        "on-secondary-container": "#ffffff",
+                        "surface-container-high": "#f5f5f5",
+                        "inverse-primary": "#546257",
+                        "on-secondary": "#ffffff",
+                        "primary": "#0095F6",
+                        "on-primary-fixed-variant": "#0095F6",
+                        "surface-bright": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#737373",
+                        "on-primary-container": "#0095F6",
+                        "secondary-fixed": "#ffdcc3",
+                        "inverse-on-surface": "#fafafa",
+                        "secondary": "#0095F6",
+                        "secondary-fixed-dim": "#0095F6",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-dim": "#f0f0f0",
+                        "primary-fixed-dim": "#0095F6",
+                        "primary-fixed": "#e0f2fe",
+                        "on-background": "#262626",
+                        "primary-container": "#0095F6",
+                        "inverse-surface": "#262626",
+                        "on-secondary-fixed": "#2f1500",
+                        "secondary-container": "#0095F6",
+                        "surface-variant": "#f0f0f0",
+                        "surface-container": "#ffffff",
+                        "surface-tint": "#0095F6",
+                        "on-secondary-fixed-variant": "#6e3900",
+                        "outline": "#dbdbdb",
+                        "on-primary-fixed": "#ffffff",
+                        "on-tertiary-fixed": "#001e2f",
+                        "outline-variant": "#dbdbdb",
+                        "surface": "#ffffff",
+                        "error": "#ed4956",
+                        "tertiary": "#0095F6",
+                        "tertiary-fixed": "#c9e6ff",
+                        "on-surface": "#262626",
+                        "tertiary-fixed-dim": "#0095F6",
+                        "tertiary-container": "#003b57",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "8px",
+                        "lg": "8px",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "margin": "32px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Epilogue"],
+                        "display-lg": ["Epilogue"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-lg": ["Work Sans"],
+                        "headline-lg": ["Epilogue"],
+                        "body-md": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+
+<!-- Animated background canvas -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- TopAppBar -->
+<header class="bg-white/80 backdrop-blur-md border-b border-gray-200 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-6 h-16">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Karspen Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugaanIGlyp7Uy8ItJK8reYroNmSFMLAXSxAew7lHoLezfB9qaP_irAE5dFG_ZuyakF3ntTcrOkYrugRuaE5Y1kzgLt33uqRy376UoQI-AlKNJYZcC2porDSXJwF5_SuM2m1tgEbRsNlhijVi4fpxVjjNbPTRBsPMA7buCOWmRK1E_YLClcLpFp6z15Alu6VJ3Q1XSnhwbzGMeo0bB_uVbpaOt21-Cl81ssNlTMAtqP2q9x1oAcevMqNOu0xxicBRKs3wedFz45rUw"/>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-gray-900 font-['Epilogue']">Karspen Expediciones</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-instagram-blue font-bold font-['Epilogue'] tracking-tight" href="#">Expediciones</a>
+<a class="text-gray-500 hover:text-gray-900 transition-colors font-['Epilogue'] tracking-tight" href="#">Seguridad</a>
+<a class="text-gray-500 hover:text-gray-900 transition-colors font-['Epilogue'] tracking-tight" href="#">Equipo</a>
+<a class="text-gray-500 hover:text-gray-900 transition-colors font-['Epilogue'] tracking-tight" href="#">Diario</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-[#0095F6] text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-blue-600 transition-colors">Seguir</button>
+<div class="w-8 h-8 rounded-full border border-gray-200 bg-gray-100 overflow-hidden">
+<img alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBAtHKceSbqLo6pXK1-QHTWVZuolIGGPCSXk89GF5sfDWPBufpdJ-A3JhzXIPnHsre-yk5loTvOCY40FEktX1BXOKLcmeiYkyD9y7OIbPTxzwKD5cpDNFlMZc2a2Ad05sptpGmwd9LaD4lSEG72P7iE0kCUC-kFHIj1DScih_4CYyiEfF4oQ5wh4YfUR-GK9BiFf3fjjvh0ADQpHxB1Uw8P_Yn17uW-H6lJc-CxsqPkeDmDma5gqZiv_D309GLzmvKp7HECyt3Z_c"/>
+</div>
+</div>
+</header>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative h-[80vh] min-h-[600px] flex items-center justify-start overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="dramatic wide shot of the Cordoba mountains in Argentina during blue hour with low lying mist and jagged peaks" src="https://jackery.com.ar/wp-content/uploads/2025/09/pexels-andrius-la-rotta-774923652-20637275-scaled.jpg"/>
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="relative z-10 max-w-7xl mx-auto px-margin w-full editorial-grid">
+<div class="col-span-12 md:col-span-8 lg:col-span-7">
+<span class="reveal reveal-delay-1 font-label-caps text-label-caps text-white mb-4 block drop-shadow-md">KARSPEN EXPEDICIONES | CÓRDOBA</span>
+<h2 class="reveal reveal-delay-2 font-display-lg text-display-lg text-white mb-8 drop-shadow-lg leading-tight">TREKKING Y MONTAÑISMO EN CÓRDOBA.</h2>
+<p class="reveal reveal-delay-3 font-body-lg text-body-lg text-white max-w-xl mb-10 drop-shadow-md font-medium">Descubrí lo salvaje de las Sierras. Guías profesionales habilitados por la provincia para llevarte a lo más alto de Argentina Central.</p>
+<div class="reveal reveal-delay-4 flex gap-4">
+<button class="pulse-cta px-8 py-3.5 bg-instagram-blue text-white font-semibold rounded-lg transition-transform active:scale-95 shadow-lg">RESERVAR AHORA</button>
+<button class="px-8 py-3.5 bg-white/20 backdrop-blur-md border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-colors shadow-lg">MENSAJE</button>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-24 bg-white section-gradient-top">
+<div class="max-w-7xl mx-auto px-margin editorial-grid items-center">
+<div class="col-span-12 lg:col-span-5 order-2 lg:order-1 reveal reveal--left">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="a lone hiker standing on a rocky outcrop looking over a vast mountain range at sunrise in Cordoba" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClvZXYIIpj1_z_2g14dIsoPaeQIj6-s4qsI7Zrih3pcRaiSj92hCsyxmhFbRP8CkH0C1tEtxby-JZmYZornuBd5S1PQUXeZbugRW76UfpBca86Xl0bEn647VWeGH1Oycv9uYKCJ217P1lMpjQFbu1X8EGVluwpuI_NruNz4CziG7CsE_VZlBfBdoVjc18BdcmTQdI0FgvGYnEkqjNK1gRfjISHOeBSBtUbnFjzcymeyUpuZKihG6MgGx6IBSqyjpMHyepoBk4PPFg"/>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-6 lg:col-start-7 order-1 lg:order-2 space-y-8">
+<h3 class="reveal font-headline-lg text-headline-lg text-gray-900 uppercase tracking-tighter">EL ALMA DE LAS SIERRAS</h3>
+<div class="reveal reveal-delay-1 w-16 h-1 bg-instagram-blue"></div>
+<p class="reveal reveal-delay-2 font-body-lg text-body-lg text-gray-600 leading-relaxed">
+                        En el corazón de Argentina existe un paisaje de granito milenario. Las Sierras de Córdoba no son solo montañas; son un santuario para los valientes. Nuestros guías habilitados conocen cada rincón, valles secretos y mesetas de altura que permanecen intocables.
+                    </p>
+<p class="reveal reveal-delay-3 font-body-lg text-body-lg text-gray-600 leading-relaxed">
+                        Creemos que el trekking es un diálogo entre el espíritu y la tierra. Nuestras expediciones están diseñadas para desafiar tus límites mientras honramos la belleza cruda de la naturaleza. Seguridad profesional y aventura real.
+                    </p>
+<div class="grid grid-cols-2 gap-8 pt-4">
+<div class="reveal reveal-delay-4">
+<div class="text-4xl font-bold text-instagram-blue mb-2 stat-pop">2.790</div>
+<div class="font-label-caps text-label-caps text-gray-400">ALTURA MÁXIMA (M)</div>
+</div>
+<div class="reveal reveal-delay-5">
+<div class="text-4xl font-bold text-instagram-blue mb-2 stat-pop">100%</div>
+<div class="font-label-caps text-label-caps text-gray-400">GUÍAS HABILITADOS</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Expedition Cards Grid -->
+<section class="py-24 section-gradient-alt">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+<div class="reveal">
+<span class="font-label-caps text-label-caps text-instagram-blue font-bold">SALIDAS PRÓXIMAS</span>
+<h3 class="font-headline-lg text-headline-lg text-gray-900 mt-2">DESTINOS DESTACADOS</h3>
+</div>
+<button class="reveal reveal-delay-2 flex items-center gap-2 text-instagram-blue font-bold font-label-caps text-label-caps group">
+                        CATÁLOGO COMPLETO <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Champaquí -->
+<div class="reveal reveal--scale reveal-delay-1 card-lift group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="trekking group ascending a steep rocky ridge under a clear blue mountain sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo6nybCeER_zJAt5FKgi1sjToEaWZjY2FcTELwgH0XWOJ9j6YXHBPdwDIoqzrsUPLTGxgtCO_4WAvlAhXINGLvtYKJJ8FcToW-7Aas8bZhCRpSO3uN_RXCOs6PNsXW7753SCn3a2Ivk59wEaLTHTuLQgFQkLb_vSFn-1QN6YnqUPvuBuh1EIolnPz7LCXzNBz6b5_uYPDkf5dMzZVXa93XV26780UcUkRK1Hv3hDeBwkpYtasw3L-k6u_WqWivigUZnpEOXGeZBgk"/>
+<div class="absolute top-4 left-4 bg-red-600 px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase rounded">DIFÍCIL</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-label-caps text-gray-400">3 DÍAS / 2 NOCHES</span>
+<span class="text-instagram-blue font-bold">RESERVAR</span>
+</div>
+<h4 class="font-headline-md text-2xl text-gray-900 mb-4 uppercase">CERRO CHAMPAQUÍ</h4>
+<p class="text-gray-500 mb-6 text-sm line-clamp-2">El techo de Córdoba. Un ascenso clásico al pico más alto de la provincia a través de Villa Alpina.</p>
+<div class="flex items-center gap-4 text-xs font-label-caps text-gray-400">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">terrain</span> 2.790m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Calamuchita</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Los Gigantes -->
+<div class="reveal reveal--scale reveal-delay-2 card-lift group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="jagged mountain peaks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1eoyjGHkXa6xKA87ViicKeHmn4kF5aql96E1nNqR-2AkxCLEh9wMvqDrfBXMReAdO5d_jT-GpziTyDBzELeoA5eRjdoUiCiazUc5uSYXzGA3e39nP6mVu5pSMunIG0K6mDdk_eX-IEGsYNbfyCaOyhyfUvBacY-PEJv4iJcIdT8DeK3rOLPw_mjkYv2l6kjr_nylyXGi-T09dTG_iWATAyNnIBOBF0F6VCoUc13DrhuQoRckKh_Kg_XkmG4P9XW7iRNp9Ow8wl-o"/>
+<div class="absolute top-4 left-4 bg-instagram-blue px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase rounded">MODERADO</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-label-caps text-gray-400">2 DÍAS / 1 NOCHE</span>
+<span class="text-instagram-blue font-bold">RESERVAR</span>
+</div>
+<h4 class="font-headline-md text-2xl text-gray-900 mb-4 uppercase">LOS GIGANTES</h4>
+<p class="text-gray-500 mb-6 text-sm line-clamp-2">Laberintos de roca y vistas panorámicas. Una experiencia única en el macizo más antiguo de Córdoba.</p>
+<div class="flex items-center gap-4 text-xs font-label-caps text-gray-400">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">terrain</span> 2.374m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Tanti</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Quebrada del Condorito -->
+<div class="reveal reveal--scale reveal-delay-3 card-lift group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="wide valley with a winding river" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLP4FABXl2_oq41hdGmD93bPMDtknRExh3PeURw7ogl5qt7um8qrAJVzeoeVFA5Po9xdQrQMlKQ4UiypQ0AP57GINgQdd77K0GnIqmSfgE5jpdIJt7adsvV94f2LOVll5y42cNmNSqWI5qpZGjisjIOtu_sPUpEFiFwF3xATT_MuUuxgeYz7FBiJ_eRCBpAGaex6IusaP-94COi4akfVxbT8_BFpKg__9UP0uU56vxSu8unKNcuvtb8A7dqxbfCOLk0jgVa0H0pqc"/>
+<div class="absolute top-4 left-4 bg-green-600 px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase rounded">FÁCIL</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-label-caps text-gray-400">DÍA COMPLETO</span>
+<span class="text-instagram-blue font-bold">RESERVAR</span>
+</div>
+<h4 class="font-headline-md text-2xl text-gray-900 mb-4 uppercase">Q. DEL CONDORITO</h4>
+<p class="text-gray-500 mb-6 text-sm line-clamp-2">Avistaje de cóndores y senderismo por la Pampa de Achala. Ideal para familias y amantes de la fauna.</p>
+<div class="flex items-center gap-4 text-xs font-label-caps text-gray-400">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">terrain</span> 1.900m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Pque Nacional</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Excellence Section -->
+<section class="py-24 bg-white border-t border-gray-100 relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-margin editorial-grid">
+<div class="col-span-12 lg:col-span-4">
+<h3 class="reveal font-headline-lg text-headline-lg text-gray-900 mb-6 uppercase tracking-tight">EXCELENCIA Y SEGURIDAD</h3>
+<p class="reveal reveal-delay-1 font-body-md text-gray-600 mb-8">Nuestras salidas cuentan con todo el respaldo logístico y profesional necesario para que tu única preocupación sea disfrutar del camino.</p>
+<ul class="space-y-4">
+<li class="reveal reveal-delay-2 flex items-center gap-3">
+<span class="material-symbols-outlined text-instagram-blue">verified</span>
+<span class="font-label-caps text-label-caps font-bold">GUÍAS HABILITADOS POR CÓRDOBA</span>
+</li>
+<li class="reveal reveal-delay-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-instagram-blue">medical_services</span>
+<span class="font-label-caps text-label-caps font-bold">PROTOCOLO WFR (PRIMEROS AUXILIOS)</span>
+</li>
+<li class="reveal reveal-delay-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-instagram-blue">language</span>
+<span class="font-label-caps text-label-caps font-bold">GUIADAS EN ES - EN - PT</span>
+</li>
+</ul>
+<div class="reveal reveal-delay-5 mt-10 p-6 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full instagram-blue flex items-center justify-center text-white">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<div class="font-bold text-sm">¿Dudas? Escribinos</div>
+<div class="text-instagram-blue font-bold text-lg">WhatsApp Online</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-7 lg:col-start-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="reveal reveal--scale reveal-delay-1 aspect-square bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="technical mountain climbing gear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5R4n9qvdpl30NwxcuMglSf0JKdXEk75nk7dGhYA1GW9LXwFeMMUqewOIy5riWoyG4GxABgh_4ZRFGBSP-9hClC_TAjr768_TeHvN5sidwEUN8mcb2rx1Nk0bW_4kscn04NTZRQtED6t0gbpWSTuO1KxV65fwod8IvufAcuKGb2tRGK5lOuq_-vo-zbkMw9UV5gHld1_j02WzdvMlkd09NPiNHgofum4xLYM092cyOgePMr2Yp6BYHH2szExNfFVE1WUFPRLs0t7U"/>
+</div>
+<div class="reveal reveal--scale reveal-delay-2 aspect-square bg-gray-100 rounded-xl overflow-hidden mt-8 shadow-lg">
+<img class="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="mountain guide map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3shYAhF5OhE-A9js9sM_c98Qu62fnzdTxXrPCwODbsD0TEc_K7MUXPlAQl47AqdqYEOGr4ND3sUh3ofypjsV-0yOrb2TebRQeRL1POIv_y09-V-UNPzweQKxUs9EPGYZGvX5eS48swX31_MOIArl109gs_1eSECILh7BhKs1d5B8ylrilK-xf1qmnuD6l4QjzLfRmpCj1xKIZqIKToAiPDPSB7-gTYai3W8MWJuFAMFuXoInM6QndWUHJb2oVWkFY1jxKQj08EBc"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200">
+<div class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto">
+<div class="mb-8 md:mb-0">
+<div class="flex items-center gap-3 mb-2">
+<img alt="Logo" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida/ADBb0ugaanIGlyp7Uy8ItJK8reYroNmSFMLAXSxAew7lHoLezfB9qaP_irAE5dFG_ZuyakF3ntTcrOkYrugRuaE5Y1kzgLt33uqRy376UoQI-AlKNJYZcC2porDSXJwF5_SuM2m1tgEbRsNlhijVi4fpxVjjNbPTRBsPMA7buCOWmRK1E_YLClcLpFp6z15Alu6VJ3Q1XSnhwbzGMeo0bB_uVbpaOt21-Cl81ssNlTMAtqP2q9x1oAcevMqNOu0xxicBRKs3wedFz45rUw"/>
+<div class="text-lg font-bold text-gray-900 font-['Epilogue'] tracking-tight">Karspen Expediciones</div>
+</div>
+<p class="text-gray-400 font-['Epilogue'] text-xs uppercase tracking-widest">© 2024 KARSPEN EXPEDICIONES. CÓRDOBA, ARGENTINA.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-gray-500 hover:text-instagram-blue font-semibold text-xs uppercase tracking-widest transition-colors" href="#">Expediciones</a>
+<a class="text-gray-500 hover:text-instagram-blue font-semibold text-xs uppercase tracking-widest transition-colors" href="#">Seguridad</a>
+<a class="text-gray-500 hover:text-instagram-blue font-semibold text-xs uppercase tracking-widest transition-colors" href="#">Términos</a>
+</div>
+<div class="mt-8 md:mt-0 flex gap-4">
+<button class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg text-gray-400 hover:text-instagram-blue hover:border-instagram-blue transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg text-gray-400 hover:text-instagram-blue hover:border-instagram-blue transition-colors">
+<span class="material-symbols-outlined">mail</span>
+</button>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 z-50">
+<button class="flex flex-col items-center justify-center text-instagram-blue pt-1 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Epilogue'] text-[10px] font-bold uppercase tracking-widest">Salidas</span>
+</button>
+<button class="flex flex-col items-center justify-center text-gray-400 pt-1 hover:text-gray-900 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Epilogue'] text-[10px] font-bold uppercase tracking-widest">Mapa</span>
+</button>
+<button class="flex flex-col items-center justify-center text-gray-400 pt-1 hover:text-gray-900 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="backpack">backpack</span>
+<span class="font-['Epilogue'] text-[10px] font-bold uppercase tracking-widest">Equipo</span>
+</button>
+<button class="flex flex-col items-center justify-center text-gray-400 pt-1 hover:text-gray-900 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Epilogue'] text-[10px] font-bold uppercase tracking-widest">Perfil</span>
+</button>
+</nav>
+<!-- FAB for booking (Desktop context only) -->
+<button class="hidden lg:flex fixed bottom-8 right-8 bg-[#0095F6] text-white px-6 py-4 rounded-full shadow-2xl items-center gap-3 font-bold z-40 transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>RESERVAR SALIDA</span>
+</button>
+
+<script>
+/* ─────────────────────────────────────────────
+   Animated background canvas – floating orbs,
+   mountain-shape triangles & dotted particles
+   ───────────────────────────────────────────── */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.scrollHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Build particles
+  const PARTICLE_COUNT = 55;
+  const particles = [];
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const type = i % 3; // 0=circle, 1=triangle, 2=diamond
+    particles.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * document.body.scrollHeight,
+      size: 8 + Math.random() * 22,
+      speedX: (Math.random() - 0.5) * 0.35,
+      speedY: (Math.random() - 0.5) * 0.35,
+      opacity: 0.04 + Math.random() * 0.08,
+      type,
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.008,
+      hue: Math.random() < 0.6 ? 205 : 210 + Math.random() * 20, // blues
+    });
+  }
+
+  function drawTriangle(cx, cy, size, rot) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(0, -size);
+    ctx.lineTo(size * 0.866, size * 0.5);
+    ctx.lineTo(-size * 0.866, size * 0.5);
+    ctx.closePath();
+    ctx.restore();
+  }
+
+  function drawDiamond(cx, cy, size, rot) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(0, -size);
+    ctx.lineTo(size * 0.6, 0);
+    ctx.lineTo(0, size);
+    ctx.lineTo(-size * 0.6, 0);
+    ctx.closePath();
+    ctx.restore();
+  }
+
+  function animate() {
+    // Resize to match potential scroll height change
+    const newH = document.body.scrollHeight;
+    if (canvas.height !== newH) canvas.height = newH;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const p of particles) {
+      p.x += p.speedX;
+      p.y += p.speedY;
+      p.rotation += p.rotSpeed;
+
+      // Wrap edges
+      if (p.x < -50) p.x = canvas.width + 50;
+      if (p.x > canvas.width + 50) p.x = -50;
+      if (p.y < -50) p.y = canvas.height + 50;
+      if (p.y > canvas.height + 50) p.y = -50;
+
+      ctx.globalAlpha = p.opacity;
+      ctx.strokeStyle = `hsl(${p.hue}, 85%, 55%)`;
+      ctx.fillStyle = `hsl(${p.hue}, 85%, 70%)`;
+      ctx.lineWidth = 1.5;
+
+      if (p.type === 0) {
+        // Circle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (p.type === 1) {
+        // Triangle
+        drawTriangle(p.x, p.y, p.size, p.rotation);
+        ctx.stroke();
+      } else {
+        // Diamond
+        drawDiamond(p.x, p.y, p.size, p.rotation);
+        ctx.fill();
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* ─────────────────────────────────────────────
+   Scroll-reveal with IntersectionObserver
+   ───────────────────────────────────────────── */
+(function () {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  // Hero elements trigger immediately (already in view)
+  document.querySelectorAll('section:first-of-type .reveal').forEach((el) => {
+    setTimeout(() => el.classList.add('visible'), 200);
+  });
+})();
+</script>
+</body></html>
